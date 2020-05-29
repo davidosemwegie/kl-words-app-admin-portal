@@ -103,36 +103,8 @@ function AddVerseForm() {
         </Grid>
 
         <Grid item xs={12}>
-          <Button variant="contained">Default</Button>
+          <Button variant="contained">Add Verse</Button>
         </Grid>
-
-        {/* <Grid item xs={6}>
-          <FormControl fullWidth variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-amount">Reference</InputLabel>
-            <OutlinedInput
-              label="Reference"
-              id="outlined-start-adornment"
-              className={clsx(classes.margin, classes.textField)}
-              variant="outlined"
-              value={values.reference}
-              onChange={handleChange("reference")}
-            />
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={6}>
-          <FormControl fullWidth variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-amount">Tags</InputLabel>
-            <OutlinedInput
-              label="Tags"
-              id="outlined-start-adornment"
-              className={clsx(classes.margin, classes.textField)}
-              variant="outlined"
-              value={values.tags}
-              onChange={handleChange("tags")}
-            />
-          </FormControl>
-        </Grid> */}
       </Grid>
     </div>
   )
