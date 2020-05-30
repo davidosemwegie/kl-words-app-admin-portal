@@ -82,7 +82,7 @@ function VerseForm() {
     }).then((res) => {
       newVerseId = res.data.createVerse.id
 
-      const tagsArray = tags.toLowerCase().split(" -- ")
+      const tagsArray = tags.toLowerCase().split(" / ")
 
       tagsArray.forEach((tag) => {
         if (dbTags.indexOf(tag) === -1) {
