@@ -8,6 +8,13 @@ import FormControl from "@material-ui/core/FormControl"
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import { useForm } from "react-hook-form"
+import gql from "graphql-tag"
+import { useMutation } from "@apollo/react-hooks"
+
+// Mutation Query
+
+// const ADD_VERSE = gql`
+// `
 
 const ErrorMessage = styled.h4`
   color: red;
@@ -37,7 +44,10 @@ function VerseForm() {
   const [successMessage, setSuccessMessage] = useState("")
 
   const onSubmit = (data) => {
-    console.log(data)
+    const { body, reference, tags } = data
+
+    const tagsArray = tags.split(" -- ")
+    console.log(body, tagsArray, reference)
   }
 
   return (
@@ -49,12 +59,11 @@ function VerseForm() {
             <FormControl fullWidth variant="outlined">
               <InputLabel htmlFor="outlined-adornment-amount">Body</InputLabel>
               <OutlinedInput
-                required
                 id="outlined-adornment-amount"
                 labelWidth={40}
                 name="body"
                 inputRef={register({
-                  required: true,
+                  required: false,
                 })}
               />
             </FormControl>
@@ -64,12 +73,11 @@ function VerseForm() {
             <FormControl fullWidth variant="outlined">
               <InputLabel htmlFor="outlined-adornment-amount">Reference</InputLabel>
               <OutlinedInput
-                required
                 id="outlined-adornment-amount"
                 labelWidth={40}
                 name="reference"
                 inputRef={register({
-                  required: true,
+                  required: false,
                 })}
               />
             </FormControl>
@@ -79,12 +87,11 @@ function VerseForm() {
             <FormControl fullWidth variant="outlined">
               <InputLabel htmlFor="outlined-adornment-amount">Tags</InputLabel>
               <OutlinedInput
-                required
                 id="outlined-adornment-amount"
                 labelWidth={40}
                 name="tags"
                 inputRef={register({
-                  required: true,
+                  required: false,
                 })}
               />
             </FormControl>
