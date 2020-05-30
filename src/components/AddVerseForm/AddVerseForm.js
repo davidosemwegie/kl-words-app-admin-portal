@@ -38,10 +38,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-// const Container = styled.div`
-//   background-color: salmon;
-// `
-
 function AddVerseForm() {
   const classes = useStyles()
   const [values, setValues] = React.useState({
@@ -56,13 +52,6 @@ function AddVerseForm() {
     console.log(prop, event.target.value)
   }
 
-  //   const handleClickShowPassword = () => {
-  //     setValues({ ...values, showPassword: !values.showPassword })
-  //   }
-
-  //   const handleMouseDownPassword = (event) => {
-  //     event.preventDefault()
-  //   }
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
