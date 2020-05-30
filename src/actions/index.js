@@ -4,3 +4,10 @@ export const auth = (code) => {
     payload: code,
   }
 }
+
+export const getTags = (array) => {
+  return {
+    type: "GET_TAGS",
+    payload: array,
+  }
+}

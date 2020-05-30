@@ -20,13 +20,16 @@ const ErrorLabel = styled.h4`
 `
 
 function PasscodeInput() {
+  // REDUX
   const dispatch = useDispatch()
   const isLoggedIn = useSelector((state) => state.auth)
 
+  // STATE
   const [passcode, setPasscode] = useState("")
   const [errorMessage, setErrorMessage] = useState("")
   const [showPassword, setShowPassword] = useState(false)
 
+  // FUNCTIONS
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword)
   }

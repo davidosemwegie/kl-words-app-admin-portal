@@ -9,12 +9,22 @@ import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import { useForm } from "react-hook-form"
 import gql from "graphql-tag"
-import { useMutation } from "@apollo/react-hooks"
+import { useMutation, useQuery } from "@apollo/react-hooks"
+import { useSelector, useDispatch } from "react-redux"
+import { getTags } from "../../actions"
 
 // Mutation Query
 
 // const ADD_VERSE = gql`
 // `
+
+const GET_TAGS = gql`
+  {
+    tags {
+      id
+    }
+  }
+`
 
 const ErrorMessage = styled.h4`
   color: red;
@@ -37,17 +47,30 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function VerseForm() {
+  // REDUX
+  const dispatch = useDispatch()
+  const dbTags = useSelector((state) => state.getTags)
+  const { loading, error, data } = useQuery(GET_TAGS)
+  // dispatch(getTags(loading ? null : data))
+
+  if (!loading) {
+    dispatch(getTags(loading ? null : data))
+  }
+
+  // FORM
   const { register, handleSubmit, errors } = useForm()
 
   const classes = useStyles()
+
+  // STATE
   const [errorMessage, setErrorMessage] = useState("")
   const [successMessage, setSuccessMessage] = useState("")
 
   const onSubmit = (data) => {
     const { body, reference, tags } = data
 
-    const tagsArray = tags.split(" -- ")
-    console.log(body, tagsArray, reference)
+    const tagsArray = tags.toLowerCase().split(" -- ")
+    console.log(dbTags)
   }
 
   return (
