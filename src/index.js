@@ -10,7 +10,7 @@ import * as serviceWorker from "./serviceWorker"
 import allReducers from "./reducers"
 
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_API_URL_DEV,
+  uri: "https://kl-words-app-prod-3a44e8e620.herokuapp.com/kl-words-app/dev",
 })
 
 const store = createStore(allReducers)
