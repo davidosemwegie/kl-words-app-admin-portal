@@ -2,20 +2,15 @@ import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import styled from "styled-components"
 import { makeStyles } from "@material-ui/core/styles"
-import clsx from "clsx"
-import IconButton from "@material-ui/core/IconButton"
-import Input from "@material-ui/core/Input"
-import FilledInput from "@material-ui/core/FilledInput"
 import OutlinedInput from "@material-ui/core/OutlinedInput"
 import InputLabel from "@material-ui/core/InputLabel"
-import InputAdornment from "@material-ui/core/InputAdornment"
-import FormHelperText from "@material-ui/core/FormHelperText"
 import FormControl from "@material-ui/core/FormControl"
-import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
-import Visibility from "@material-ui/icons/Visibility"
-import VisibilityOff from "@material-ui/icons/VisibilityOff"
 import Grid from "@material-ui/core/Grid"
+
+const ErrorMessage = styled.h4`
+  color: red;
+`
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +36,7 @@ function AddVerseForm() {
     tags: "",
   })
   const [errorMessage, setErrorMessage] = useState("")
+  const [successMessage, setSuccessMessage] = useState("")
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value })
@@ -48,16 +44,21 @@ function AddVerseForm() {
     console.log(prop, event.target.value)
   }
 
-  const addVerse = () => {
+  const addVerse = (prop) => {
     const { body, reference, tags } = values
 
     if (body === "" || reference === "" || tags === "") {
       setErrorMessage("Please make sure that all the fields have been filled out")
+    } else {
+      setErrorMessage("")
+      setSuccessMessage("Verse has been Added")
+      setValues({ ...values, [prop]: "" })
     }
   }
 
   return (
     <div className={classes.root}>
+      <ErrorMessage>{errorMessage}</ErrorMessage>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <FormControl fullWidth variant="outlined">
