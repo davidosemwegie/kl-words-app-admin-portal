@@ -17,11 +17,6 @@ import Visibility from "@material-ui/icons/Visibility"
 import VisibilityOff from "@material-ui/icons/VisibilityOff"
 import Grid from "@material-ui/core/Grid"
 
-/* 
-body - text input
-reference - input
-tags - 
-*/
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",

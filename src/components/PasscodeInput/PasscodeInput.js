@@ -1,7 +1,9 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import { useSelector, useDispatch } from "react-redux"
-import { OutlinedInput } from "@material-ui/core/"
+import { OutlinedInput, InputAdornment, IconButton } from "@material-ui/core/"
+import Visibility from "@material-ui/icons/Visibility"
+import VisibilityOff from "@material-ui/icons/VisibilityOff"
 import { auth } from "../../actions"
 
 const Container = styled.div`
@@ -23,6 +25,15 @@ function PasscodeInput() {
 
   const [passcode, setPasscode] = useState("")
   const [errorMessage, setErrorMessage] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword)
+  }
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault()
+  }
 
   const handleChange = () => (event) => {
     const userCode = event.target.value
@@ -40,7 +51,24 @@ function PasscodeInput() {
       <Title>Kingdom Living Words App Admin Console</Title>
       <Label>Enter the passcode</Label>
       <ErrorLabel>{errorMessage}</ErrorLabel>
-      <OutlinedInput id="outlined-adornment-amount" value={passcode} onChange={handleChange()} />
+      <OutlinedInput
+        id="outlined-adornment-amount"
+        type={showPassword ? "text" : "password"}
+        value={passcode}
+        onChange={handleChange()}
+        endAdornment={(
+          <InputAdornment position="end">
+            <IconButton
+              aria-label="toggle password visibility"
+              onClick={handleClickShowPassword}
+              onMouseDown={handleMouseDownPassword}
+              edge="end"
+            >
+              {showPassword ? <Visibility /> : <VisibilityOff />}
+            </IconButton>
+          </InputAdornment>
+        )}
+      />
     </Container>
   )
 }
