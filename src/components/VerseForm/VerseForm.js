@@ -15,8 +15,11 @@ import { getTags } from "../../actions"
 
 // Mutation Query
 
-// const ADD_VERSE = gql`
-// `
+// const ADD_VERSE = gql``
+
+// const ADD_TAG_EXISTS = gql``
+
+// const ADD_TAG_CREATE = gql``
 
 const GET_TAGS = gql`
   {
@@ -69,8 +72,11 @@ function VerseForm() {
   const onSubmit = (data) => {
     const { body, reference, tags } = data
 
+    // Step 1: run mutation
+    // Step 2: get verse ID
+    // Step 3: loop through each tag, if in dbTags then do create query, if not the create the tag
+
     const tagsArray = tags.toLowerCase().split(" -- ")
-    console.log(dbTags)
   }
 
   return (
