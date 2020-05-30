@@ -8,26 +8,10 @@ import FormControl from "@material-ui/core/FormControl"
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import { useForm } from "react-hook-form"
-import gql from "graphql-tag"
 import { useMutation, useQuery } from "@apollo/react-hooks"
 import { useSelector, useDispatch } from "react-redux"
 import { getTags } from "../../actions"
-
-// Mutation Query
-
-// const ADD_VERSE = gql``
-
-// const ADD_TAG_EXISTS = gql``
-
-// const ADD_TAG_CREATE = gql``
-
-const GET_TAGS = gql`
-  {
-    tags {
-      id
-    }
-  }
-`
+import { NEW_VERSE, ADD_EXISTING_TAG, ADD_NEW_TAG, GET_TAGS } from "./queries"
 
 const ErrorMessage = styled.h4`
   color: red;
@@ -52,12 +36,17 @@ const useStyles = makeStyles((theme) => ({
 function VerseForm() {
   // REDUX
   const dispatch = useDispatch()
-  const dbTags = useSelector((state) => state.getTags)
+  const storeTags = useSelector((state) => state.getTags)
   const { loading, error, data } = useQuery(GET_TAGS)
   // dispatch(getTags(loading ? null : data))
 
+  const dbTags = []
   if (!loading) {
     dispatch(getTags(loading ? null : data))
+
+    if (typeof storeTags.tags !== "undefined") {
+      storeTags.tags.forEach((tag) => dbTags.push(tag.id))
+    }
   }
 
   // FORM
@@ -65,74 +54,116 @@ function VerseForm() {
 
   const classes = useStyles()
 
+  // Queries
+  const [newVerse] = useMutation(NEW_VERSE)
+  const [addNewTag] = useMutation(ADD_NEW_TAG)
+  const [addExistingTag] = useMutation(ADD_EXISTING_TAG)
+
   // STATE
   const [errorMessage, setErrorMessage] = useState("")
   const [successMessage, setSuccessMessage] = useState("")
+  // const [newVerseId, setNewVerseId] = useState("")
 
+  // eslint-disable-next-line no-shadow
   const onSubmit = (data) => {
     const { body, reference, tags } = data
 
     // Step 1: run mutation
-    // Step 2: get verse ID
+    // Step 2: get verse ID - done
     // Step 3: loop through each tag, if in dbTags then do create query, if not the create the tag
 
-    const tagsArray = tags.toLowerCase().split(" -- ")
+    let newVerseId = ""
+
+    newVerse({
+      variables: {
+        body,
+        reference,
+      },
+    }).then((res) => {
+      newVerseId = res.data.createVerse.id
+
+      const tagsArray = tags.toLowerCase().split(" -- ")
+
+      tagsArray.forEach((tag) => {
+        if (dbTags.indexOf(tag) === -1) {
+          // create new tag
+          addNewTag({
+            variables: {
+              id: newVerseId,
+              tag,
+            },
+          })
+        } else {
+          // add existing tag
+          addExistingTag({
+            variables: {
+              id: newVerseId,
+              tag,
+            },
+          })
+        }
+      })
+    })
   }
 
   return (
     <div className={classes.root}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <ErrorMessage>{errorMessage}</ErrorMessage>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <FormControl fullWidth variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-amount">Body</InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-amount"
-                labelWidth={40}
-                name="body"
-                inputRef={register({
-                  required: false,
-                })}
-              />
-            </FormControl>
-          </Grid>
+      {storeTags.length === 0 ? (
+        <h1>Loading....</h1>
+      ) : (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <ErrorMessage>{errorMessage}</ErrorMessage>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <FormControl fullWidth variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-amount">Body</InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-amount"
+                  labelWidth={40}
+                  name="body"
+                  inputRef={register({
+                    required: false,
+                  })}
+                />
+              </FormControl>
+            </Grid>
 
-          <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-amount">Reference</InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-amount"
-                labelWidth={40}
-                name="reference"
-                inputRef={register({
-                  required: false,
-                })}
-              />
-            </FormControl>
-          </Grid>
+            <Grid item xs={6}>
+              <FormControl fullWidth variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-amount">Reference</InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-amount"
+                  labelWidth={40}
+                  name="reference"
+                  inputRef={register({
+                    required: false,
+                  })}
+                />
+              </FormControl>
+            </Grid>
 
-          <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-amount">Tags</InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-amount"
-                labelWidth={40}
-                name="tags"
-                inputRef={register({
-                  required: false,
-                })}
-              />
-            </FormControl>
-          </Grid>
+            <Grid item xs={6}>
+              <FormControl fullWidth variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-amount">Tags</InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-amount"
+                  labelWidth={40}
+                  name="tags"
+                  inputRef={register({
+                    required: false,
+                  })}
+                />
+              </FormControl>
+            </Grid>
 
-          <Grid item xs={12}>
-            <Button type="submit" variant="contained">
-              Add Verse
-            </Button>
+            <Grid item xs={12}>
+              <Button type="submit" variant="contained">
+                Add Verse
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
-      </form>
+        </form>
+      )}
     </div>
   )
 }
