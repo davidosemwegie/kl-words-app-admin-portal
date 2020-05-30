@@ -40,24 +40,6 @@ function VerseForm() {
     console.log(data)
   }
 
-  //   const handleChange = (prop) => (event) => {
-  //     setValues({ ...values, [prop]: event.target.value })
-
-  //     console.log(prop, event.target.value)
-  //   }
-
-  //   const addVerse = (prop) => {
-  //     const { body, reference, tags } = values
-
-  //     if (body === "" || reference === "" || tags === "") {
-  //       setErrorMessage("Please make sure that all the fields have been filled out")
-  //     } else {
-  //       setErrorMessage("")
-  //       setSuccessMessage("Verse has been Added")
-  //       setValues({ ...values, [prop]: "" })
-  //     }
-  //   }
-
   return (
     <div className={classes.root}>
       <form onSubmit={handleSubmit(onSubmit)}>
