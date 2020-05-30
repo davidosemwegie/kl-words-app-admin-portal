@@ -1,5 +1,5 @@
 const codeMatch = (code) => {
-  if (code === 5555) {
+  if (code === process.env.REACT_APP_PASSCODE) {
     return true
   }
   return false
