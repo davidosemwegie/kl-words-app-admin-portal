@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import styled from "styled-components"
 import { makeStyles } from "@material-ui/core/styles"
@@ -45,11 +45,20 @@ function AddVerseForm() {
     reference: "",
     tags: "",
   })
+  const [errorMessage, setErrorMessage] = useState("")
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value })
 
     console.log(prop, event.target.value)
+  }
+
+  const addVerse = () => {
+    const { body, reference, tags } = values
+
+    if (body === "" || reference === "" || tags === "") {
+      setErrorMessage("Please make sure that all the fields have been filled out")
+    }
   }
 
   return (
@@ -59,6 +68,7 @@ function AddVerseForm() {
           <FormControl fullWidth variant="outlined">
             <InputLabel htmlFor="outlined-adornment-amount">Body</InputLabel>
             <OutlinedInput
+              required
               id="outlined-adornment-amount"
               value={values.body}
               onChange={handleChange("body")}
@@ -71,6 +81,7 @@ function AddVerseForm() {
           <FormControl fullWidth variant="outlined">
             <InputLabel htmlFor="outlined-adornment-amount">Reference</InputLabel>
             <OutlinedInput
+              required
               id="outlined-adornment-amount"
               value={values.reference}
               onChange={handleChange("reference")}
@@ -83,6 +94,7 @@ function AddVerseForm() {
           <FormControl fullWidth variant="outlined">
             <InputLabel htmlFor="outlined-adornment-amount">Tags</InputLabel>
             <OutlinedInput
+              required
               id="outlined-adornment-amount"
               value={values.tags}
               onChange={handleChange("tags")}
@@ -92,7 +104,9 @@ function AddVerseForm() {
         </Grid>
 
         <Grid item xs={12}>
-          <Button variant="contained">Add Verse</Button>
+          <Button onClick={() => addVerse()} variant="contained">
+            Add Verse
+          </Button>
         </Grid>
       </Grid>
     </div>
