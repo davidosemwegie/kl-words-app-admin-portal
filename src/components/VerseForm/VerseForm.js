@@ -16,6 +16,9 @@ import { NEW_VERSE, ADD_EXISTING_TAG, ADD_NEW_TAG, GET_TAGS } from "./queries"
 const ErrorMessage = styled.h4`
   color: red;
 `
+const SuccessMessage = styled.h4`
+  color: green;
+`
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +53,7 @@ function VerseForm() {
   }
 
   // FORM
-  const { register, handleSubmit, errors } = useForm()
+  const { register, handleSubmit, errors, reset } = useForm()
 
   const classes = useStyles()
 
@@ -63,6 +66,16 @@ function VerseForm() {
   const [errorMessage, setErrorMessage] = useState("")
   const [successMessage, setSuccessMessage] = useState("")
   // const [newVerseId, setNewVerseId] = useState("")
+
+  const onFormSuccess = () => {
+    setSuccessMessage("The new verse has been added!")
+
+    reset({
+      body: "",
+      reference: "",
+      tags: "",
+    })
+  }
 
   // eslint-disable-next-line no-shadow
   const onSubmit = (data) => {
@@ -104,6 +117,8 @@ function VerseForm() {
         }
       })
     })
+
+    onFormSuccess()
   }
 
   return (
@@ -113,6 +128,7 @@ function VerseForm() {
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
           <ErrorMessage>{errorMessage}</ErrorMessage>
+          <SuccessMessage>{successMessage}</SuccessMessage>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <FormControl fullWidth variant="outlined">
@@ -122,8 +138,9 @@ function VerseForm() {
                   labelWidth={40}
                   name="body"
                   inputRef={register({
-                    required: false,
+                    required: true,
                   })}
+                  onFocus={() => setSuccessMessage("")}
                 />
               </FormControl>
             </Grid>
@@ -133,11 +150,12 @@ function VerseForm() {
                 <InputLabel htmlFor="outlined-adornment-amount">Reference</InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-amount"
-                  labelWidth={40}
+                  labelWidth={80}
                   name="reference"
                   inputRef={register({
-                    required: false,
+                    required: true,
                   })}
+                  onFocus={() => setSuccessMessage("")}
                 />
               </FormControl>
             </Grid>
@@ -150,8 +168,9 @@ function VerseForm() {
                   labelWidth={40}
                   name="tags"
                   inputRef={register({
-                    required: false,
+                    required: true,
                   })}
+                  onFocus={() => setSuccessMessage("")}
                 />
               </FormControl>
             </Grid>
