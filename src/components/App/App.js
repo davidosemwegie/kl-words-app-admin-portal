@@ -3,7 +3,7 @@ import "./App.css"
 import { useSelector } from "react-redux"
 import gql from "graphql-tag"
 import { useQuery } from "@apollo/react-hooks"
-
+import styled from "styled-components"
 import PasscodeInput from "../PasscodeInput"
 import Dashboard from "../Dashboard"
 
@@ -20,9 +20,28 @@ const GET_VERSES = gql`
   }
 `
 
+const Container = styled.div`
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  display: grid;
+  place-content: center center;
+`
+
 function App() {
   const loggedIn = useSelector((state) => state.auth)
-  return <div>{loggedIn ? <Dashboard /> : <PasscodeInput />}</div>
+  return (
+    <div>
+      {loggedIn ? (
+        <Dashboard />
+      ) : (
+        <Container>
+          <PasscodeInput />
+        </Container>
+      )}
+    </div>
+  )
 }
 
 // function App() {

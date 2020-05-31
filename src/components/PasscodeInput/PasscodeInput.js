@@ -9,7 +9,7 @@ import { auth } from "../../actions"
 const Container = styled.div`
   width: 200px;
   justify-content: center;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   text-align: center;
 `
 const Label = styled.h3``
