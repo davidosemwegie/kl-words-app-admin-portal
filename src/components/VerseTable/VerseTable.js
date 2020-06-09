@@ -29,6 +29,10 @@ const useStyles = makeStyles((theme) => ({
   regular: {
     color: theme.palette.grey["500"],
   },
+  tagRow: {
+    margin: "0 auto",
+    maxWidth: "500px",
+  },
 }))
 
 const GET_VERSES = gql`
@@ -79,7 +83,7 @@ const EmptyTable = () => {
       }}
     >
       <img alt="Empty Projects Image" src={tablePic} className={classes.image} />
-      <CellText title="You have 0 Verses" />
+      <CellText title="0 Verses" />
     </div>
   )
 }
@@ -103,20 +107,14 @@ const VerseTable = () => {
 
   return (
     <div>
-      {typeof dbTags !== "undefined" &&
-        dbTags.map((tag) => <Tag title={tag.id} onClick={() => getTagVerses(tag.id)} />)}
-      {/* <button type="button" onClick={() => getTagVerses("love")}>
-        love
-      </button>
-      <button type="button" onClick={() => getTagVerses("faith")}>
-        faith
-      </button>
-      <button type="button" onClick={() => getTagVerses("money")}>
-        money
-      </button>
-      <button type="button" onClick={() => getTagVerses(0)}>
-        All
-      </button> */}
+      <div className={classes.tagRow}>
+        {typeof dbTags !== "undefined" &&
+          dbTags.map((tag) => (
+            <Tag selected={tagId === tag.id} title={tag.id} onClick={() => getTagVerses(tag.id)} />
+          ))}
+      </div>
+
+      <h1>{tagId}</h1>
 
       {isTableEmpty ? (
         <div>
