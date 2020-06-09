@@ -59,7 +59,7 @@ function PasscodeInput() {
         type={showPassword ? "text" : "password"}
         value={passcode}
         onChange={handleChange()}
-        endAdornment={(
+        endAdornment={
           <InputAdornment position="end">
             <IconButton
               aria-label="toggle password visibility"
@@ -70,7 +70,7 @@ function PasscodeInput() {
               {showPassword ? <Visibility /> : <VisibilityOff />}
             </IconButton>
           </InputAdornment>
-        )}
+        }
       />
     </Container>
   )

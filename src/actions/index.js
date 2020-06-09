@@ -11,3 +11,10 @@ export const getTags = (array) => {
     payload: array,
   }
 }
+
+export const emptyTable = (isEmpty) => {
+  return {
+    type: "EMPTY_TABLE",
+    payload: isEmpty,
+  }
+}

@@ -54,9 +54,9 @@ function App() {
   return (
     <div>
       <Dashboard />
-      {data.verses.map((verse) => (
+      {/* {data.verses.map((verse) => (
         <h2>{verse.body}</h2>
-      ))}
+      ))} */}
     </div>
   )
 }

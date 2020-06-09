@@ -55,6 +55,7 @@ function VerseForm() {
   // FORM
   const { register, handleSubmit, errors, reset } = useForm()
 
+  //Styling
   const classes = useStyles()
 
   // Queries
@@ -80,10 +81,6 @@ function VerseForm() {
   // eslint-disable-next-line no-shadow
   const onSubmit = (data) => {
     const { body, reference, tags } = data
-
-    // Step 1: run mutation
-    // Step 2: get verse ID - done
-    // Step 3: loop through each tag, if in dbTags then do create query, if not the create the tag
 
     let newVerseId = ""
 
